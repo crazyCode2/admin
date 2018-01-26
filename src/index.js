@@ -1,8 +1,4 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import registerServiceWorker from './registerServiceWorker';
+import Nerv from 'nervjs'
+import Hello from './Hello'
 
-ReactDOM.render(<App />, document.getElementById('root'));
-registerServiceWorker();
+Nerv.render(<Hello />, document.getElementById('app'))
