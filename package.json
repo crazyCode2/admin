@@ -20,7 +20,9 @@
     "webpack-dev-server": "^2.11.1"
   },
   "dependencies": {
+    "bootstrap": "^3.3.7",
     "nervjs": "^1.2.8",
+    "react-bootstrap": "^0.32.1",
     "react-sidemenu": "0.0.13"
   }
 }
