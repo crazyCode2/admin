@@ -20,6 +20,7 @@
     "webpack-dev-server": "^2.11.1"
   },
   "dependencies": {
-    "nervjs": "^1.2.8"
+    "nervjs": "^1.2.8",
+    "react-sidemenu": "0.0.13"
   }
 }
