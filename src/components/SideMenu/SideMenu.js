@@ -6,15 +6,21 @@ class Hello extends Nerv.Component {
   constructor () {
     super(...arguments)
     this.state = {
-      message: '世界'
+      message: '左侧菜单'
     }
   }
   
   // 渲染
   render () {
+    let side = {
+      "width": "200px",
+      "height": "200px",
+      "backgroundColor": "#000"
+    }
+
     return (
-      <div>
-        Hello, {this.state.message}
+      <div style={side}>
+        <div>{this.state.message}</div>
       </div>
     )
   }

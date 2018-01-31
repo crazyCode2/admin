@@ -1,4 +1,8 @@
+/**
+ * 入口文件
+ */
 import Nerv from 'nervjs'
-import Hello from './Hello'
+// 引入组件
+import App from './App'
  
-Nerv.render(<Hello />, document.getElementById('app'))
+Nerv.render(<App />, document.getElementById('app'))
