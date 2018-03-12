@@ -4,6 +4,8 @@
 import React from 'react';
 // 布局组件
 import HomeLayout from '../layouts/HomeLayout';
+// 引入 prop-types
+import PropTypes from 'prop-types';
 
 class UserList extends React.Component {
   // 构造器
@@ -39,7 +41,8 @@ class UserList extends React.Component {
    * 编辑
    */
   handleEdit(user){
-    //
+    // 跳转编辑页面
+    this.context.router.push('/user/edit/' + user.id);
   }
 
   /**
@@ -114,5 +117,12 @@ class UserList extends React.Component {
     );
   }
 }
+
+/**
+ * 任何使用this.context.xxx的地方，必须在组件的contextTypes里定义对应的PropTypes
+ */
+UserList.contextTypes = {
+  router: PropTypes.object.isRequired
+};
 
 export default UserList;

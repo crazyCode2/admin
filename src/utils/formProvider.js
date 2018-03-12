@@ -30,8 +30,10 @@ function formProvider (fields) { // fields 对象
           form: initialFormState,
           formValid: false // 加了一个formValid用来保存整个表单的校验状态
         };
-        // 绑定this
+        // 输入框改变事件 绑定this
         this.handleValueChange = this.handleValueChange.bind(this);
+        // 设置表单的值
+        this.setFormValues = this.setFormValues.bind(this);
       }
       // 输入框改变事件
       handleValueChange(fieldName, value){
@@ -75,6 +77,35 @@ function formProvider (fields) { // fields 对象
           formValid
         });
       }
+
+      /**
+       * 设置表单的值
+       */
+      setFormValues(values){
+        if(!values){
+          return;
+        }
+
+        const { form } = this.state;
+        /**
+         * form 表单对象
+         * ...扩展运算符
+         */
+        let newForm = {...form};
+        for(const field in form){
+          if(form.hasOwnProperty(field)){
+            if(typeof values[field] !== 'undefined'){
+              newForm[field] = {...newForm[field], value: values[field]};
+            }
+            // 正常情况下主动设置的每个字段一定是有效的
+            newForm[field].valid = true;
+          }
+        }
+
+        // 设置状态
+        this.setState({form: newForm});
+      }
+
       render(){
         const { form, formValid } = this.state;
         return (
@@ -82,7 +113,8 @@ function formProvider (fields) { // fields 对象
             {...this.props}
             form={form}
             formValid={formValid}
-            onFormChange={this.handleValueChange} />
+            onFormChange={this.handleValueChange}
+            setFormValues={this.setFormValues} />
         );
       }
     }
