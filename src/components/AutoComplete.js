@@ -23,7 +23,7 @@ class AutoComplete extends React.Component {
     const {value, options} = this.props;
     return (
       <div>
-        <input value={value} />
+        <input value={value}/>
         {options.length > 0 && (
           <ul>
             {

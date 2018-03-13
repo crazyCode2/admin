@@ -7,6 +7,8 @@ import FormItem from '../components/FormItem'; // 或写成 ./FormItem
 import formProvider from '../utils/formProvider';
 // 引入 prop-types
 import PropTypes from 'prop-types';
+// 引入自动完成组件
+import AutoComplete from './AutoComplete';
 
 class BookEditor extends React.Component {
   // 按钮提交事件
@@ -14,7 +16,7 @@ class BookEditor extends React.Component {
     // 阻止表单submit事件自动跳转页面的动作
     e.preventDefault();
     // 定义常量
-    const { form: { name, price }, formValid, editTarget} = this.props; // 组件传值
+    const { form: { name, price, owner_id }, formValid, editTarget} = this.props; // 组件传值
     // 验证
     if(!formValid){
       alert('请填写正确的信息后重试');
@@ -38,7 +40,8 @@ class BookEditor extends React.Component {
       // 使用fetch提交的json数据需要使用JSON.stringify转换为字符串
       body: JSON.stringify({
         name: name.value,
-        price: price.value
+        price: price.value,
+        owner_id: owner_id.value
       }),
       headers: {
         'Content-Type': 'application/json'
@@ -72,10 +75,10 @@ class BookEditor extends React.Component {
   
   render() {
     // 定义常量
-    const {form: {name, price}, onFormChange} = this.props;
+    const {form: {name, price, owner_id}, onFormChange} = this.props;
     return (
       <form onSubmit={(e) => this.handleSubmit(e)}>
-        <FormItem label="图书名称:" valid={name.valid} error={name.error}>
+        <FormItem label="书名:" valid={name.valid} error={name.error}>
           <input
             type="text"
             value={name.value}
@@ -87,6 +90,13 @@ class BookEditor extends React.Component {
             type="number"
             value={price.value || ''}
             onChange={(e) => onFormChange('price', e.target.value)}/>
+        </FormItem>
+
+        <FormItem label="所有者:" valid={owner_id.valid} error={owner_id.error}>
+          <AutoComplete
+            value={owner_id.value ? owner_id.value + '' : ''}
+            options={['10000(一韬)','10001(张三)']}
+            onValueChange={value => onFormChange('owner_id', value)} />
         </FormItem>
         <br />
         <input type="submit" value="提交" />
@@ -103,7 +113,7 @@ BookEditor.contextTypes = {
 
 // 实例化
 BookEditor = formProvider({ // field 对象
-  // 姓名
+  // 书名
   name: {
     defaultValue: '',
     rules: [
@@ -128,6 +138,22 @@ BookEditor = formProvider({ // field 对象
           return value > 0;
         },
         error: '价格必须大于0'
+      }
+    ]
+  },
+  // 所有者
+  owner_id: {
+    defaultValue: '',
+    rules: [
+      {
+        pattern: function (value) {
+          return value.length > 0;
+        },
+        error: '请输入所有者名称'
+      },
+      {
+        pattern: /^.{1,10}$/,
+        error: '所有者名称最多10个字符'
       }
     ]
   }
