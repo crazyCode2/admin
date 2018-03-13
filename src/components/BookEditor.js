@@ -1,5 +1,5 @@
 /**
- * 用户编辑器组件
+ * 图书编辑器组件
  */
 import React from 'react';
 import FormItem from '../components/FormItem'; // 或写成 ./FormItem
@@ -8,13 +8,13 @@ import formProvider from '../utils/formProvider';
 // 引入 prop-types
 import PropTypes from 'prop-types';
 
-class UserEditor extends React.Component {
+class BookEditor extends React.Component {
   // 按钮提交事件
   handleSubmit(e){
     // 阻止表单submit事件自动跳转页面的动作
     e.preventDefault();
     // 定义常量
-    const { form: { name, age, gender }, formValid, editTarget} = this.props; // 组件传值
+    const { form: { name, price }, formValid, editTarget} = this.props; // 组件传值
     // 验证
     if(!formValid){
       alert('请填写正确的信息后重试');
@@ -23,7 +23,7 @@ class UserEditor extends React.Component {
 
     // 默认值
     let editType = '添加';
-    let apiUrl = 'http://localhost:8000/user';
+    let apiUrl = 'http://localhost:8000/book';
     let method = 'post';
     // 判断类型
     if(editTarget){
@@ -38,8 +38,7 @@ class UserEditor extends React.Component {
       // 使用fetch提交的json数据需要使用JSON.stringify转换为字符串
       body: JSON.stringify({
         name: name.value,
-        age: age.value,
-        gender: gender.value
+        price: price.value
       }),
       headers: {
         'Content-Type': 'application/json'
@@ -52,11 +51,11 @@ class UserEditor extends React.Component {
       // 当添加成功时,返回的json对象中应包含一个有效的id字段
       // 所以可以使用res.id来判断添加是否成功
       if(res.id){
-        alert(editType + '添加用户成功!');
-        this.context.router.push('/user/list'); // 跳转到用户列表页面
+        alert(editType + '添加图书成功!');
+        this.context.router.push('/book/list'); // 跳转到用户列表页面
         return;
       }else{
-        alert(editType + '添加用户失败!');
+        alert(editType + '添加图书失败!');
       }
     })
     // 失败的回调
@@ -73,31 +72,21 @@ class UserEditor extends React.Component {
   
   render() {
     // 定义常量
-    const {form: {name, age, gender}, onFormChange} = this.props;
+    const {form: {name, price}, onFormChange} = this.props;
     return (
       <form onSubmit={(e) => this.handleSubmit(e)}>
-        <FormItem label="用户名:" valid={name.valid} error={name.error}>
+        <FormItem label="图书名称:" valid={name.valid} error={name.error}>
           <input
             type="text"
             value={name.value}
             onChange={(e) => onFormChange('name', e.target.value)}/>
         </FormItem>
 
-        <FormItem label="年龄:" valid={age.valid} error={age.error}>
+        <FormItem label="价格:" valid={price.valid} error={price.error}>
           <input
             type="number"
-            value={age.value || ''}
-            onChange={(e) => onFormChange('age', e.target.value)}/>
-        </FormItem>
-
-        <FormItem label="性别:" valid={gender.valid} error={gender.error}>
-          <select
-            value={gender.value}
-            onChange={(e) => onFormChange('gender', e.target.value)}>
-            <option value="">请选择</option>
-            <option value="male">男</option>
-            <option value="female">女</option>
-          </select>
+            value={price.value || ''}
+            onChange={(e) => onFormChange('price', e.target.value)}/>
         </FormItem>
         <br />
         <input type="submit" value="提交" />
@@ -106,14 +95,14 @@ class UserEditor extends React.Component {
   }
 }
 
-// 必须给UserEditor定义一个包含router属性的contextTypes
+// 必须给BookEditor定义一个包含router属性的contextTypes
 // 使得组件中可以通过this.context.router来使用React Router提供的方法
-UserEditor.contextTypes = {
+BookEditor.contextTypes = {
   router: PropTypes.object.isRequired
 };
 
 // 实例化
-UserEditor = formProvider({ // field 对象
+BookEditor = formProvider({ // field 对象
   // 姓名
   name: {
     defaultValue: '',
@@ -122,38 +111,26 @@ UserEditor = formProvider({ // field 对象
         pattern: function (value) {
           return value.length > 0;
         },
-        error: '请输入用户名'
+        error: '请输入图书户名'
       },
       {
-        pattern: /^.{1,4}$/,
-        error: '用户名最多4个字符'
+        pattern: /^.{1,10}$/,
+        error: '图书名最多10个字符'
       }
     ]
   },
-  // 年龄
-  age: {
+  // 价格
+  price: {
     defaultValue: 0,
     rules: [
       {
         pattern: function(value){
-          return value >= 1 && value <= 100;
+          return value > 0;
         },
-        error: '请输入1~100的年龄'
-      }
-    ]
-  },
-  // 性别
-  gender: {
-    defaultValue: '',
-    rules: [
-      {
-        pattern: function(value) {
-          return !!value;
-        },
-        error: '请选择性别'
+        error: '价格必须大于0'
       }
     ]
   }
-})(UserEditor);
+})(BookEditor);
 
-export default UserEditor;
+export default BookEditor;
