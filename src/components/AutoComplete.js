@@ -4,6 +4,8 @@
 import React from 'react';
 // 引入 prop-types
 import PropTypes from 'prop-types';
+// 引入样式
+import style from '../styles/auto-complete.less';
 
 class AutoComplete extends React.Component {
   // 构造器
@@ -22,14 +24,14 @@ class AutoComplete extends React.Component {
     // 组件传值
     const {value, options} = this.props;
     return (
-      <div>
-        <input value={value}/>
+      <div className={style.wrapper}>
+        <input value={displayValue || value}/>
         {options.length > 0 && (
-          <ul>
+          <ul className={style.options}>
             {
               options.map((item, index) => {
                 return (
-                  <li key={index}>
+                  <li key={index} className={activeItemIndex === index ? style.active : ''}>
                     {item.text || item}
                   </li>
                 );
