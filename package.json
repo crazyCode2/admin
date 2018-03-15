@@ -51,7 +51,8 @@
   "scripts": {
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
-    "test": "node scripts/test.js --env=jsdom"
+    "test": "node scripts/test.js --env=jsdom",
+    "server": "node server/index.js"
   },
   "jest": {
     "collectCoverageFrom": [
@@ -96,6 +97,7 @@
     "extends": "react-app"
   },
   "devDependencies": {
+    "json-server": "^0.12.1",
     "node-sass": "^4.7.2",
     "sass-loader": "^6.0.7"
   }

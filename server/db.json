@@ -1,0 +1,48 @@
+{
+  "user": [
+    {
+      "name": "李师师",
+      "age": "13",
+      "gender": "female",
+      "id": 10003
+    },
+    {
+      "name": "小七",
+      "age": "12",
+      "gender": "female",
+      "id": 10004
+    },
+    {
+      "name": "唐三",
+      "age": "15",
+      "gender": "male",
+      "id": 10005
+    },
+    {
+      "name": "小舞",
+      "age": "15",
+      "gender": "female",
+      "id": 10006
+    }
+  ],
+  "book": [
+    {
+      "name": "Java从入门到放弃",
+      "price": "199",
+      "id": 10001,
+      "owner_id": 10001
+    },
+    {
+      "name": "环太平洋",
+      "price": "12",
+      "id": 10002,
+      "owner_id": 10002
+    },
+    {
+      "name": "漂流记",
+      "price": "12",
+      "owner_id": "10003",
+      "id": 10003
+    }
+  ]
+}
