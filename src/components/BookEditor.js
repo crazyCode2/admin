@@ -11,6 +11,62 @@ import PropTypes from 'prop-types';
 import AutoComplete from './AutoComplete';
 
 class BookEditor extends React.Component {
+  // 构造器
+  constructor(props) {
+    super(props);
+  
+    this.state = {
+      recommendUsers: []
+    };
+  }
+
+  // 获取推荐用户信息
+  getRecommendUsers (partialUserId) {
+    // 请求数据
+    fetch('http://localhost:8000/user?id_like=' + partialUserId)
+    .then((res) => res.json())
+    .then((res) => {
+      if(res.length === 1 && res[0].id === partialUserId){
+        // 如果结果只有1条且id与输入的id一致,说明输入的id已经完整了,没必要再设置建议列表
+        return;
+      }
+
+      // 设置建议列表
+      this.setState({
+        recommendUsers: res.map((user) => {
+          return {
+            text: `${user.id}(${user.name})`,
+            value: user.id
+          }
+        })
+      });
+    })
+  }
+
+  // 计时器
+  timer = 0;
+  handleOwnerIdChange(value){
+    this.props.onFormChange('owner_id', value);
+    this.setState({
+      recommendUsers: []
+    });
+
+    // 使用"节流"的方式进行请求,防止用户输入的过程中过多地发送请求
+    if(this.timer){
+      // 清除计时器
+      clearTimeout(this.timer);
+    }
+
+    if(value){
+      // 200毫秒内只会发送1次请求
+      this.timer = setTimeout(() => {
+        // 真正的请求方法
+        this.getRecommendUsers(value);
+        this.timer = 0;
+      }, 200);
+    }
+  }
+
   // 按钮提交事件
   handleSubmit(e){
     // 阻止表单submit事件自动跳转页面的动作
@@ -75,6 +131,7 @@ class BookEditor extends React.Component {
   
   render() {
     // 定义常量
+    const {recommendUsers} = this.state;
     const {form: {name, price, owner_id}, onFormChange} = this.props;
     return (
       <form onSubmit={(e) => this.handleSubmit(e)}>
@@ -95,8 +152,8 @@ class BookEditor extends React.Component {
         <FormItem label="所有者:" valid={owner_id.valid} error={owner_id.error}>
           <AutoComplete
             value={owner_id.value ? owner_id.value + '' : ''}
-            options={[{text:'10000(一韬)',value: 10000},{text:'10001(张三)',value: 10001}]}
-            onValueChange={value => onFormChange('owner_id', value)} />
+            options={recommendUsers}
+            onValueChange={value => this.handleOwnerIdChange(value)} />
         </FormItem>
         <br />
         <input type="submit" value="提交" />
