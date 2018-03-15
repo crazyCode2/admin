@@ -95,7 +95,7 @@ class BookEditor extends React.Component {
         <FormItem label="所有者:" valid={owner_id.valid} error={owner_id.error}>
           <AutoComplete
             value={owner_id.value ? owner_id.value + '' : ''}
-            options={['10000(一韬)','10001(张三)']}
+            options={[{text:'10000(一韬)',value: 10000},{text:'10001(张三)',value: 10001}]}
             onValueChange={value => onFormChange('owner_id', value)} />
         </FormItem>
         <br />
