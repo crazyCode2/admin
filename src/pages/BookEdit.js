@@ -8,6 +8,8 @@ import HomeLayout from '../layouts/HomeLayout';
 import PropTypes from 'prop-types';
 // 图书编辑器组件
 import BookEditor from '../components/BookEditor';
+// 引入 封装fetch工具类
+import { get } from '../utils/request'; 
 
 class BookEdit extends React.Component {
   // 构造器
@@ -27,9 +29,10 @@ class BookEdit extends React.Component {
      * 发送请求
      * 获取用户数据
      */
-    fetch('http://localhost:8000/book/' + bookId)
-    .then(res => res.json())
-    .then(res => {
+    get('http://localhost:8000/book/' + bookId)
+    .then((res) => {
+      console.log(res);
+      // 设置状态
       this.setState({
         book: res
       });

@@ -1,4 +1,7 @@
-// FormItem组件
+/**
+ * FormItem组件
+ * 表单子组件
+ */
 import React from 'react';
 
 class FormItem extends React.Component {

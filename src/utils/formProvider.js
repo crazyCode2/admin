@@ -1,4 +1,5 @@
 /**
+ * 表单验证组件
  * 高阶组件 formProvider
  * 返回组件的组件（函数）
  * 使用高阶组件可以在不修改原组件代码的情况下，修改原组件的行为或增强功能
@@ -103,7 +104,9 @@ function formProvider (fields) { // fields 对象
         }
 
         // 设置状态
-        this.setState({form: newForm});
+        this.setState({
+          form: newForm
+        });
       }
 
       render(){

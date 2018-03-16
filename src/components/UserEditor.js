@@ -7,6 +7,8 @@ import FormItem from '../components/FormItem'; // 或写成 ./FormItem
 import formProvider from '../utils/formProvider';
 // 引入 prop-types
 import PropTypes from 'prop-types';
+// 引入 封装fetch工具类
+import request from '../utils/request'; 
 
 class UserEditor extends React.Component {
   // 按钮提交事件
@@ -33,20 +35,11 @@ class UserEditor extends React.Component {
     }
 
     // 发送请求
-    fetch(apiUrl, {
-      method, // method: method 的简写
-      // 使用fetch提交的json数据需要使用JSON.stringify转换为字符串
-      body: JSON.stringify({
-        name: name.value,
-        age: age.value,
-        gender: gender.value
-      }),
-      headers: {
-        'Content-Type': 'application/json'
-      }
+    request(method,apiUrl, {
+      name: name.value,
+      age: age.value,
+      gender: gender.value
     })
-    // 强制回调的数据格式为json
-    .then((res) => res.json())
     // 成功的回调
     .then((res) => {
       // 当添加成功时,返回的json对象中应包含一个有效的id字段

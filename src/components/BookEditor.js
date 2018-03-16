@@ -9,6 +9,8 @@ import formProvider from '../utils/formProvider';
 import PropTypes from 'prop-types';
 // 引入自动完成组件
 import AutoComplete from './AutoComplete';
+// 引入 封装fetch工具类
+import request,{get} from '../utils/request'; 
 
 class BookEditor extends React.Component {
   // 构造器
@@ -23,8 +25,7 @@ class BookEditor extends React.Component {
   // 获取推荐用户信息
   getRecommendUsers (partialUserId) {
     // 请求数据
-    fetch('http://localhost:8000/user?id_like=' + partialUserId)
-    .then((res) => res.json())
+    get('http://localhost:8000/user?id_like=' + partialUserId)
     .then((res) => {
       if(res.length === 1 && res[0].id === partialUserId){
         // 如果结果只有1条且id与输入的id一致,说明输入的id已经完整了,没必要再设置建议列表
@@ -91,20 +92,11 @@ class BookEditor extends React.Component {
     }
 
     // 发送请求
-    fetch(apiUrl, {
-      method, // method: method 的简写
-      // 使用fetch提交的json数据需要使用JSON.stringify转换为字符串
-      body: JSON.stringify({
-        name: name.value,
-        price: price.value,
-        owner_id: owner_id.value
-      }),
-      headers: {
-        'Content-Type': 'application/json'
-      }
+    request(method,apiUrl, {
+      name: name.value,
+      price: price.value,
+      owner_id: owner_id.value
     })
-    // 强制回调的数据格式为json
-    .then((res) => res.json())
     // 成功的回调
     .then((res) => {
       // 当添加成功时,返回的json对象中应包含一个有效的id字段
@@ -204,7 +196,7 @@ BookEditor = formProvider({ // field 对象
     rules: [
       {
         pattern: function (value) {
-          return value.length > 0;
+          return value > 0;
         },
         error: '请输入所有者名称'
       },

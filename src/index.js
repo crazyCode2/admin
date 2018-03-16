@@ -5,7 +5,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 // 引入react-router
 import { Router, Route, hashHistory } from 'react-router';
-import HomePage from './pages/Home';
+import HomePage from './pages/Home'; // 首页
+import LoginPage from './pages/Login'; // 登录页
 import UserAddPage from './pages/UserAdd'; // 添加用户页
 import UserListPage from './pages/UserList'; // 用户列表页
 import UserEditPage from './pages/UserEdit'; // 用户编辑页面
@@ -17,6 +18,7 @@ import BookEditPage from './pages/BookEdit'; // 用户编辑页面
 ReactDOM.render((
   <Router history={hashHistory}>
   	<Route path="/" component={HomePage} />
+  	<Route path="/login" component={LoginPage} />
   	<Route path="/user/add" component={UserAddPage} />
   	<Route path="/user/list" component={UserListPage} />
   	<Route path="/user/edit/:id" component={UserEditPage} />

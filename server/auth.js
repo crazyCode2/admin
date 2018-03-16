@@ -1,10 +1,13 @@
+/**
+ * 到期时间
+ */
 const expireTime = 1000 * 60;
  
 module.exports = function (req, res, next) {
   res.header('Access-Control-Expose-Headers', 'access-token');
   const now = Date.now();
  
-  let unauthorized = true;
+  let unauthorized = true; // 未授权
   const token = req.headers['access-token'];
   if (token) {
     const expired = now - token > expireTime;

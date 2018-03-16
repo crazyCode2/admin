@@ -8,6 +8,8 @@ import HomeLayout from '../layouts/HomeLayout';
 import PropTypes from 'prop-types';
 // 用户编辑器组件
 import UserEditor from '../components/UserEditor';
+// 引入 封装fetch工具类
+import { get } from '../utils/request'; 
 
 class UserEdit extends React.Component {
   // 构造器
@@ -27,9 +29,9 @@ class UserEdit extends React.Component {
      * 发送请求
      * 获取用户数据
      */
-    fetch('http://localhost:8000/user/' + userId)
-    .then(res => res.json())
-    .then(res => {
+    get('http://localhost:8000/user/' + userId)
+    .then((res) => {
+      // 设置状态
       this.setState({
         user: res
       });

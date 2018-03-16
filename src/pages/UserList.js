@@ -6,6 +6,8 @@ import React from 'react';
 import HomeLayout from '../layouts/HomeLayout';
 // 引入 prop-types
 import PropTypes from 'prop-types';
+// 引入 封装后的fetch工具类
+import { get, del } from '../utils/request';
 
 class UserList extends React.Component {
   // 构造器
@@ -24,9 +26,8 @@ class UserList extends React.Component {
    */
   componentWillMount(){
     // 请求数据
-    fetch('http://localhost:8000/user')
-      .then(res => res.json())
-      .then(res => {
+    get('http://localhost:8000/user')
+      .then((res) => {
         /**
          * 成功的回调
          * 数据赋值
@@ -54,11 +55,9 @@ class UserList extends React.Component {
     // 判断
     if(confirmed){
       // 执行删除数据操作
-      fetch('http://localhost:8000/user/' + user.id, {
-        method: 'delete'
+      del('http://localhost:8000/user/' + user.id, {
       })
-      .then(res => res.json())
-      .then(res => {
+      .then((res) => {
         /**
          * 设置状态
          * array.filter
