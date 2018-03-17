@@ -2,9 +2,8 @@
  * 主页
  */
 import React from 'react';
-import { Link } from 'react-router';
-// 布局组件
-import HomeLayout from '../layouts/HomeLayout';
+// 引入样式表
+import '../styles/home-page.less';
 
 class Home extends React.Component {
   // 构造器
@@ -16,15 +15,9 @@ class Home extends React.Component {
 
   render() {
     return (
-      <HomeLayout title="Welcome">
-        <Link to="/user/list">用户列表</Link>
-        <br />
-        <Link to="/user/add">添加用户</Link>
-        <br />
-        <Link to="/book/list">图书列表</Link>
-        <br />
-        <Link to="/book/add">添加图书</Link>
-      </HomeLayout>
+      <div className="welcome">
+        Welcome
+      </div>
     );
   }
 }
