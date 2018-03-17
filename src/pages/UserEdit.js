@@ -2,8 +2,6 @@
  * 编辑用户页面
  */
 import React from 'react';
-// 布局组件
-import HomeLayout from '../layouts/HomeLayout';
 // 引入 prop-types
 import PropTypes from 'prop-types';
 // 用户编辑器组件
@@ -40,13 +38,7 @@ class UserEdit extends React.Component {
 
   render() {
     const {user} = this.state;
-    return (
-      <HomeLayout title="编辑用户">
-        {
-          user ? <UserEditor editTarget={user} /> : '加载中...'
-        }
-      </HomeLayout>
-    );
+    return user ? <UserEditor editTarget={user} /> : <span>加载中...</span>;
   }
 }
 

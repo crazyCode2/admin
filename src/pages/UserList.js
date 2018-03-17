@@ -2,8 +2,6 @@
  * 用户列表页面
  */
 import React from 'react';
-// 布局组件
-import HomeLayout from '../layouts/HomeLayout';
 // 引入 prop-types
 import PropTypes from 'prop-types';
 // 引入 封装后的fetch工具类
@@ -80,39 +78,37 @@ class UserList extends React.Component {
     const { userList } = this.state;
 
     return (
-      <HomeLayout title="用户列表">
-        <table>
-          <thead>
-            <tr>
-              <th>用户ID</th>
-              <th>用户名</th>
-              <th>性别</th>
-              <th>年龄</th>
-              <th>操作</th>
-            </tr>
-          </thead>
+      <table>
+        <thead>
+          <tr>
+            <th>用户ID</th>
+            <th>用户名</th>
+            <th>性别</th>
+            <th>年龄</th>
+            <th>操作</th>
+          </tr>
+        </thead>
 
-          <tbody>
-            {
-              userList.map((user) => {
-                return (
-                  <tr key={user.id}>
-                    <td>{user.id}</td>
-                    <td>{user.name}</td>
-                    <td>{user.gender}</td>
-                    <td>{user.age}</td>
-                    <td>
-                      <a onClick={() => this.handleEdit(user)}>编辑</a>
-                      &nbsp;
-                      <a onClick={() => this.handleDel(user)}>删除</a>
-                    </td>
-                  </tr>
-                );
-              })
-            }
-          </tbody>
-        </table>
-      </HomeLayout>
+        <tbody>
+          {
+            userList.map((user) => {
+              return (
+                <tr key={user.id}>
+                  <td>{user.id}</td>
+                  <td>{user.name}</td>
+                  <td>{user.gender}</td>
+                  <td>{user.age}</td>
+                  <td>
+                    <a onClick={() => this.handleEdit(user)}>编辑</a>
+                    &nbsp;
+                    <a onClick={() => this.handleDel(user)}>删除</a>
+                  </td>
+                </tr>
+              );
+            })
+          }
+        </tbody>
+      </table>
     );
   }
 }

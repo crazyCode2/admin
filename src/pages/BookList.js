@@ -2,8 +2,6 @@
  * 图书列表页面
  */
 import React from 'react';
-// 布局组件
-import HomeLayout from '../layouts/HomeLayout';
 // 引入 prop-types
 import PropTypes from 'prop-types';
 // 引入 封装fetch工具类
@@ -80,37 +78,35 @@ class BookList extends React.Component {
     const { bookList } = this.state;
 
     return (
-      <HomeLayout title="图书列表">
-        <table>
-          <thead>
-            <tr>
-              <th>图书ID</th>
-              <th>图书名称</th>
-              <th>价格</th>
-              <th>操作</th>
-            </tr>
-          </thead>
+      <table>
+        <thead>
+          <tr>
+            <th>图书ID</th>
+            <th>图书名称</th>
+            <th>价格</th>
+            <th>操作</th>
+          </tr>
+        </thead>
 
-          <tbody>
-            {
-              bookList.map((book) => {
-                return (
-                  <tr key={book.id}>
-                    <td>{book.id}</td>
-                    <td>{book.name}</td>
-                    <td>{book.price}</td>
-                    <td>
-                      <a onClick={() => this.handleEdit(book)}>编辑</a>
-                      &nbsp;
-                      <a onClick={() => this.handleDel(book)}>删除</a>
-                    </td>
-                  </tr>
-                );
-              })
-            }
-          </tbody>
-        </table>
-      </HomeLayout>
+        <tbody>
+          {
+            bookList.map((book) => {
+              return (
+                <tr key={book.id}>
+                  <td>{book.id}</td>
+                  <td>{book.name}</td>
+                  <td>{book.price}</td>
+                  <td>
+                    <a onClick={() => this.handleEdit(book)}>编辑</a>
+                    &nbsp;
+                    <a onClick={() => this.handleDel(book)}>删除</a>
+                  </td>
+                </tr>
+              );
+            })
+          }
+        </tbody>
+      </table>
     );
   }
 }

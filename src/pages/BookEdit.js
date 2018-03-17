@@ -2,8 +2,6 @@
  * 编辑图书页面
  */
 import React from 'react';
-// 布局组件
-import HomeLayout from '../layouts/HomeLayout';
 // 引入 prop-types
 import PropTypes from 'prop-types';
 // 图书编辑器组件
@@ -41,13 +39,7 @@ class BookEdit extends React.Component {
 
   render() {
     const {book} = this.state;
-    return (
-      <HomeLayout title="编辑图书">
-        {
-          book ? <BookEditor editTarget={book} /> : '加载中...'
-        }
-      </HomeLayout>
-    );
+    return book ? <BookEditor editTarget={book} /> : <span>加载中...</span>;
   }
 }
 
