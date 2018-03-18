@@ -56,6 +56,7 @@
     "test": "node scripts/test.js --env=jsdom",
     "server": "node server/index.js"
   },
+  "homepage": ".",
   "jest": {
     "collectCoverageFrom": [
       "src/**/*.{js,jsx,mjs}"
