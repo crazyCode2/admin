@@ -7,7 +7,7 @@ import { Icon, Form, Input, Button, message } from 'antd';
 // 引入 封装后的fetch工具类
 import { post } from '../utils/request';
 // 引入样式表
-import '../styles/login-page.less';
+import styles from '../styles/login-page.less';
 // 引入 prop-types
 import PropTypes from 'prop-types';
 
@@ -21,6 +21,7 @@ class Login extends React.Component {
   }
   
   handleSubmit (e) {
+    // 通知 Web 浏览器不要执行与事件关联的默认动作
     e.preventDefault();
     // 表单验证
     this.props.form.validateFields((err, values) => {
@@ -46,13 +47,13 @@ class Login extends React.Component {
     // 验证规则
     const { getFieldDecorator } = form;
     return (
-      <div className="wrapper">
-        <div className="body">
-          <header className="header">
+      <div className={styles.wrapper}>
+        <div className={styles.body}>
+          <header className={styles.header}>
             ReactManager
           </header>
 
-          <section className="form">
+          <section className={styles.form}>
             <Form onSubmit={this.handleSubmit}>
               <FormItem>
                 {getFieldDecorator('account',{
@@ -64,7 +65,7 @@ class Login extends React.Component {
                     }
                   ]
                 })(
-                  <Input type="text" addonBefore={<Icon type="user" />} />
+                  <Input type="text" prefix={<Icon type="user" />} />
                 )}
               </FormItem>
 
@@ -78,11 +79,11 @@ class Login extends React.Component {
                     }
                   ]
                 })(
-                  <Input type="password" addonBefore={<Icon type="lock" />} />
+                  <Input type="password" prefix={<Icon type="lock" />} />
                 )}
               </FormItem>
 
-              <Button className="btn" type="primary" htmlType="submit">登录</Button>
+              <Button className={styles.btn} type="primary" htmlType="submit">登录</Button>
             </Form>
           </section>
         </div>

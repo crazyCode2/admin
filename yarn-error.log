@@ -1,5 +1,5 @@
 Arguments: 
-  C:\Program Files\nodejs\node.exe C:\Users\Administrator\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js build
+  C:\Program Files\nodejs\node.exe C:\Users\Administrator\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js start
 
 PATH: 
   C:\Users\Administrator\bin;D:\Git\mingw64\bin;D:\Git\usr\local\bin;D:\Git\usr\bin;D:\Git\usr\bin;D:\Git\mingw64\bin;D:\Git\usr\bin;C:\Users\Administrator\bin;D:\Python36;D:\Python36\Scripts;D:\Ruby23-x64\bin;C:\ProgramData\Oracle\Java\javapath;C:\Program Files\Java\jdk1.8.0_112\bin;C:\Program Files\Java\jdk1.8.0_112\jre\bin;D:\apache-ant-1.9.7\bin;D:\adt\sdk\tools;D:\adt\sdk\platform-tools;D:\adt\sdk\build-tools;D:\adt\eclipse\plugins\org.apache.ant_1.8.3.v201301120609;D:\gradle-2.14.1\bin;D:\apache-maven-3.3.9\bin;D:\apache-ant-1.9.7\bin;D:\Git\cmd;C:\Windows\System32;D:\Tomcat\lib;D:\Tomcat\bin;D:\mysql\bin;C:\Windows\system32;C:\Windows;C:\Windows\system32\wbem;C:\ProgramData\chocolatey\bin;C:\Program Files\nodejs;C:\Program Files\TortoiseSVN\bin;D:\mysql\bin;D:\Python36\Scripts;D:\Python36;C:\Program Files\Java\jdk1.8.0_112\bin;C:\Program Files\Java\jdk1.8.0_112\jre\bin;C:\Users\Administrator\AppData\Roaming\npm;D:\Git\usr\bin\vendor_perl;D:\Git\usr\bin\core_perl
@@ -108,6 +108,15 @@ npm manifest:
     "babel": {
       "presets": [
         "react-app"
+      ],
+      "plugins": [
+        [
+          "import",
+          {
+            "libraryName": "antd",
+            "style": true
+          }
+        ]
       ]
     },
     "eslintConfig": {
@@ -8520,7 +8529,7 @@ Trace:
   Error: Command failed.
   Exit code: 1
   Command: C:\Windows\system32\cmd.exe
-  Arguments: /d /s /c node scripts/build.js
+  Arguments: /d /s /c node scripts/start.js
   Directory: D:\svn-projects\admin\trunk
   Output:
   

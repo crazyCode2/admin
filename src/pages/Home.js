@@ -3,7 +3,7 @@
  */
 import React from 'react';
 // 引入样式表
-import '../styles/home-page.less';
+import styles from '../styles/home-page.less';
 
 class Home extends React.Component {
   // 构造器
@@ -15,7 +15,7 @@ class Home extends React.Component {
 
   render() {
     return (
-      <div className="welcome">
+      <div className={styles.welcome}>
         Welcome
       </div>
     );

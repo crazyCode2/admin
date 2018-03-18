@@ -6,7 +6,7 @@ import React from 'react';
 import { Link } from 'react-router';
 // Menu 导航菜单 Icon 图标
 import { Menu, Icon } from 'antd';
-import '../styles/home-layout.less';
+import styles from '../styles/home-layout.less';
 
 // 左侧菜单栏
 const SubMenu = Menu.SubMenu;
@@ -16,12 +16,12 @@ class HomeLayout extends React.Component {
     const {children} = this.props;
     return (
       <div>
-        <header className="header">
+        <header className={styles.header}>
           <Link to="/">ReactManager</Link>
         </header>
  
-        <main className="main">
-          <div className="menu">
+        <main className={styles.main}>
+          <div className={styles.menu}>
             <Menu mode="inline" theme="dark" style={{width: '240'}}>
               <SubMenu key="user" title={<span><Icon type="user"/><span>用户管理</span></span>}>
                 <Menu.Item key="user-list">
@@ -43,7 +43,7 @@ class HomeLayout extends React.Component {
             </Menu>
           </div>
  
-          <div className="content">
+          <div className={styles.content}>
             {children}
           </div>
         </main>

@@ -5,7 +5,7 @@ import React from 'react';
 // 引入 prop-types
 import PropTypes from 'prop-types';
 // 引入样式
-import '../styles/auto-complete.less';
+import styles from '../styles/auto-complete.less';
 
 // 获得当前元素value值
 function getItemValue (item) {
@@ -131,19 +131,19 @@ class AutoComplete extends React.Component {
     // 组件传值
     const {value, options} = this.props;
     return (
-      <div className="wrapper">
+      <div className={styles.wrapper}>
         <input
           value={displayValue || value}
           onChange={e => this.handleChange(e.target.value)}
           onKeyDown={this.handleKeyDown} />
         {options.length > 0 && (
-          <ul className="options" onMouseLeave={this.handleLeave}>
+          <ul className={styles.options} onMouseLeave={this.handleLeave}>
             {
               options.map((item, index) => {
                 return (
                   <li
                     key={index}
-                    className={activeItemIndex === index ? 'active' : ''}
+                    className={activeItemIndex === index ? styles.active : ''}
                     onMouseEnter={() => this.handleEnter(index)}
                     onClick={() => this.handleChange(getItemValue(item))}
                   >
