@@ -1,12 +1,6 @@
 {
   "user": [
     {
-      "name": "李师师",
-      "age": "13",
-      "gender": "female",
-      "id": 10003
-    },
-    {
       "name": "唐三",
       "age": "15",
       "gender": "male",

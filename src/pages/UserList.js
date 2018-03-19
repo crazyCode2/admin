@@ -2,6 +2,8 @@
  * 用户列表页面
  */
 import React from 'react';
+// 引入 antd 组件
+import { message, Table, Button, Popconfirm } from 'antd';
 // 引入 prop-types
 import PropTypes from 'prop-types';
 // 引入 封装后的fetch工具类
@@ -48,13 +50,9 @@ class UserList extends React.Component {
    * 删除
    */
   handleDel(user){
-    // 确认框
-    const confirmed = window.confirm(`确认要删除用户 ${user.name} 吗?`);
-    // 判断
-    if(confirmed){
-      // 执行删除数据操作
-      del('http://localhost:8000/user/' + user.id, {
-      })
+    // 执行删除数据操作
+    del('http://localhost:8000/user/' + user.id, {
+    })
       .then((res) => {
         /**
          * 设置状态
@@ -64,51 +62,56 @@ class UserList extends React.Component {
         this.setState({
           userList: this.state.userList.filter(item => item.id !== user.id)
         });
-        alert('删除用户成功');
+        message.success('删除用户成功');
       })
       .catch(err => {
-        console.log(err);
-        alert('删除用户失败');
+        console.error(err);
+        message.error('删除用户失败');
       });
-    }
   }
 
   render() {
     // 定义变量
     const { userList } = this.state;
+    // antd的Table组件使用一个columns数组来配置表格的列
+    const columns = [
+      {
+        title: '用户ID',
+        dataIndex: 'id'
+      },
+      {
+        title: '用户名',
+        dataIndex: 'name'
+      },
+      {
+        title: '性别',
+        dataIndex: 'gender'
+      },
+      {
+        title: '年龄',
+        dataIndex: 'age'
+      },
+      {
+        title: '操作',
+        render: (text, record) => {
+          return (
+            <Button.Group type="ghost">
+              <Button size="small" onClick={() => this.handleEdit(record)}>编辑</Button>
+              <Popconfirm
+                title="确定要删除吗?"
+                okText="确定"
+                cancelText="取消"
+                onConfirm={() => this.handleDel(record)}>
+                <Button size="small">删除</Button>
+              </Popconfirm>
+            </Button.Group>
+          );
+        }
+      }
+    ];
 
     return (
-      <table>
-        <thead>
-          <tr>
-            <th>用户ID</th>
-            <th>用户名</th>
-            <th>性别</th>
-            <th>年龄</th>
-            <th>操作</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          {
-            userList.map((user) => {
-              return (
-                <tr key={user.id}>
-                  <td>{user.id}</td>
-                  <td>{user.name}</td>
-                  <td>{user.gender}</td>
-                  <td>{user.age}</td>
-                  <td>
-                    <a onClick={() => this.handleEdit(user)}>编辑</a>
-                    &nbsp;
-                    <a onClick={() => this.handleDel(user)}>删除</a>
-                  </td>
-                </tr>
-              );
-            })
-          }
-        </tbody>
-      </table>
+      <Table columns={columns} dataSource={userList} rowKey={row => row.id} />
     );
   }
 }
