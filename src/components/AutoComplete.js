@@ -2,6 +2,8 @@
  * 自动完成组件
  */
 import React from 'react';
+// 引入 antd 组件
+import { Input } from 'antd';
 // 引入 prop-types
 import PropTypes from 'prop-types';
 // 引入样式
@@ -18,6 +20,7 @@ class AutoComplete extends React.Component {
     super(props);
     // 定义初始化状态
     this.state = {
+      show: false, // 新增的下拉框显示控制开关
       displayValue: '',
       activeItemIndex: -1
     };
@@ -35,8 +38,11 @@ class AutoComplete extends React.Component {
       activeItemIndex: -1,
       displayValue: ''
     });
-    // 通过回调将新的值传递给组件使用者
-    this.props.onValueChange(value);
+    /**
+     * 通过回调将新的值传递给组件使用者
+     * 原来的onValueChange改为了onChange以适配antd的getFieldDecorator
+     */
+    this.props.onChange(value);
   }
 
   // 处理上下键、回车键点击事件
@@ -127,23 +133,26 @@ class AutoComplete extends React.Component {
 
   // 渲染
   render() {
-    const {displayValue, activeItemIndex} = this.state;
+    const {show, displayValue, activeItemIndex} = this.state;
     // 组件传值
     const {value, options} = this.props;
     return (
       <div className={styles.wrapper}>
-        <input
+        <Input
           value={displayValue || value}
           onChange={e => this.handleChange(e.target.value)}
-          onKeyDown={this.handleKeyDown} />
-        {options.length > 0 && (
+          onKeyDown={this.handleKeyDown}
+          onFocus={() => this.setState({show: true})}
+          onBlur={() => this.setState({show: false})}
+        />
+        {show && options.length > 0 && (
           <ul className={styles.options} onMouseLeave={this.handleLeave}>
             {
               options.map((item, index) => {
                 return (
                   <li
                     key={index}
-                    className={activeItemIndex === index ? styles.active : ''}
+                    className={index === activeItemIndex ? styles.active : ''}
                     onMouseEnter={() => this.handleEnter(index)}
                     onClick={() => this.handleChange(getItemValue(item))}
                   >
@@ -159,11 +168,14 @@ class AutoComplete extends React.Component {
   }
 }
 
-// 通用组件最好写一下propTypes约束
+/**
+ * 由于使用了antd的form.getFieldDecorator来包装组件
+ * 这里取消了原来props的isRequired约束以防止报错
+ */
 AutoComplete.propTypes = {
-  value: PropTypes.string.isRequired, // 字符串
-  options: PropTypes.array.isRequired, // 数组
-  onValueChange: PropTypes.func.isRequired // 函数
+  value: PropTypes.any, // 任意类型
+  options: PropTypes.array, // 数组
+  onChange: PropTypes.func // 函数
 };
 
 // 向外暴露

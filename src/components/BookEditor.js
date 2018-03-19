@@ -7,11 +7,11 @@ import { Input, InputNumber, Form, Button, message } from 'antd';
 // 引入 prop-types
 import PropTypes from 'prop-types';
 // 引入自动完成组件
-import AutoComplete from './AutoComplete';
+import AutoComplete from '../components/AutoComplete'; // 也可以写为 './AutoComplete'
 // 引入 封装fetch工具类
 import request,{get} from '../utils/request';
 
-const Option = AutoComplete.Option;
+// const Option = AutoComplete.Option;
 const FormItem = Form.Item;
 // 表单布局
 const formLayout = {
@@ -32,6 +32,9 @@ class BookEditor extends React.Component {
     this.state = {
       recommendUsers: []
     };
+    // 绑定this
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleOwnerIdChange = this.handleOwnerIdChange.bind(this);
   }
 
   // 生命周期--组件加载完毕
@@ -114,7 +117,6 @@ class BookEditor extends React.Component {
   // 计时器
   timer = 0;
   handleOwnerIdChange(value){
-    this.props.onFormChange('owner_id', value);
     this.setState({
       recommendUsers: []
     });

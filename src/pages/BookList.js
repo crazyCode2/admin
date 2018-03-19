@@ -2,6 +2,8 @@
  * 图书列表页面
  */
 import React from 'react';
+// 引入 antd 组件
+import { message, Table, Button, Popconfirm } from 'antd';
 // 引入 prop-types
 import PropTypes from 'prop-types';
 // 引入 封装fetch工具类
@@ -48,13 +50,9 @@ class BookList extends React.Component {
    * 删除
    */
   handleDel(book){
-    // 确认框
-    const confirmed = window.confirm(`确认要删除书名 ${book.name} 吗?`);
-    // 判断
-    if(confirmed){
-      // 执行删除数据操作
-      del('http://localhost:8000/book/' + book.id, {
-      })
+    // 执行删除数据操作
+    del('http://localhost:8000/book/' + book.id, {
+    })
       .then(res => {
         /**
          * 设置状态
@@ -64,13 +62,12 @@ class BookList extends React.Component {
         this.setState({
           bookList: this.state.bookList.filter(item => item.id !== book.id)
         });
-        alert('删除用户成功');
+        message.success('删除用户成功');
       })
       .catch(err => {
-        console.log(err);
-        alert('删除用户失败');
+        console.error(err);
+        message.error('删除用户失败');
       });
-    }
   }
 
   render() {
