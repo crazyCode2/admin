@@ -73,37 +73,44 @@ class BookList extends React.Component {
   render() {
     // 定义变量
     const { bookList } = this.state;
+    // antd的Table组件使用一个columns数组来配置表格的列
+    const columns = [
+      {
+        title: '图书ID',
+        dataIndex: 'id'
+      },
+      {
+        title: '书名',
+        dataIndex: 'name'
+      },
+      {
+        title: '价格',
+        dataIndex: 'price',
+        render: (text, record) => <span>&yen;{record.price / 100}</span>
+      },
+      {
+        title: '所有者ID',
+        dataIndex: 'owner_id'
+      },
+      {
+        title: '操作',
+        render: (text, record) => (
+          <Button.Group type="ghost">
+            <Button size="small" onClick={() => this.handleEdit(record)}>编辑</Button>
+            <Popconfirm
+              title="确定要删除吗?"
+              okText="确定"
+              cancelText="取消"
+              onConfirm={() => this.handleDel(record)}>
+              <Button size="small">删除</Button>
+            </Popconfirm>
+          </Button.Group>
+        )
+      }
+    ];
 
     return (
-      <table>
-        <thead>
-          <tr>
-            <th>图书ID</th>
-            <th>图书名称</th>
-            <th>价格</th>
-            <th>操作</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          {
-            bookList.map((book) => {
-              return (
-                <tr key={book.id}>
-                  <td>{book.id}</td>
-                  <td>{book.name}</td>
-                  <td>{book.price}</td>
-                  <td>
-                    <a onClick={() => this.handleEdit(book)}>编辑</a>
-                    &nbsp;
-                    <a onClick={() => this.handleDel(book)}>删除</a>
-                  </td>
-                </tr>
-              );
-            })
-          }
-        </tbody>
-      </table>
+      <Table columns={columns} dataSource={bookList} rowKey={row => row.id} />
     );
   }
 }

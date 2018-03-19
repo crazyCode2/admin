@@ -4721,7 +4721,7 @@ lodash.cond@^4.3.0:
   version "4.5.2"
   resolved "http://registry.npm.taobao.org/lodash.cond/download/lodash.cond-4.5.2.tgz#f471a1da486be60f6ab955d17115523dd1d255d5"
 
-lodash.debounce@^4.0.0, lodash.debounce@^4.0.8:
+lodash.debounce@^4.0.0:
   version "4.0.8"
   resolved "http://registry.npm.taobao.org/lodash.debounce/download/lodash.debounce-4.0.8.tgz#82d79bff30a67c4005ffd5e2515300ad9ca4d7af"
 
@@ -6327,12 +6327,12 @@ rc-slider@~8.6.0:
     warning "^3.0.0"
 
 rc-steps@~3.1.0:
-  version "3.1.0"
-  resolved "http://registry.npm.taobao.org/rc-steps/download/rc-steps-3.1.0.tgz#b204c9ef066287c5cc30dcbe485b2c1bf86e01c6"
+  version "3.1.1"
+  resolved "http://registry.npm.taobao.org/rc-steps/download/rc-steps-3.1.1.tgz#79583ad808309d82b8e011676321d153fd7ca403"
   dependencies:
     babel-runtime "^6.23.0"
     classnames "^2.2.3"
-    lodash.debounce "^4.0.8"
+    lodash "^4.17.5"
     prop-types "^15.5.7"
 
 rc-switch@~1.6.0:

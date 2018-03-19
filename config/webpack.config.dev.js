@@ -202,8 +202,7 @@ module.exports = {
             ],
           },
           {
-            test: /\.(css|less)$/,
-            // exclude: /node_modules|antd\.css/,
+            test: /\.css$/,
             use: [
               require.resolve('style-loader'),
               {
@@ -232,9 +231,6 @@ module.exports = {
                   ],
                 },
               },
-              {
-                loader: require.resolve('less-loader') // compiles Less to CSS
-              }
             ],
           },
           // "file" loader makes sure those assets get served by WebpackDevServer.

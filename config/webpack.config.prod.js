@@ -226,7 +226,7 @@ module.exports = {
             // Note: this won't work without `new ExtractTextPlugin()` in `plugins`.
           },
           {
-            test: /\.(css|less)$/,
+            test: /\.css$/,
             loader: ExtractTextPlugin.extract(
               Object.assign(
                 {
@@ -265,9 +265,6 @@ module.exports = {
                         ],
                       },
                     },
-                    {
-                      loader: require.resolve('less-loader') // compiles Less to CSS
-                    }
                   ],
                 },
                 extractTextPluginOptions

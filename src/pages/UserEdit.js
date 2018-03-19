@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 // 用户编辑器组件
 import UserEditor from '../components/UserEditor';
 // 引入 封装fetch工具类
-import { get } from '../utils/request'; 
+import { get } from '../utils/request';
 
 class UserEdit extends React.Component {
   // 构造器
