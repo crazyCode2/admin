@@ -2,99 +2,147 @@
  * 用户编辑器组件
  */
 import React from 'react';
-import FormItem from '../components/FormItem'; // 或写成 ./FormItem
-// 高阶组件 formProvider表单验证
-import formProvider from '../utils/formProvider';
+// 引入 antd 组件
+import { Form, Input, InputNumber, Select, Button, message } from 'antd';
 // 引入 prop-types
 import PropTypes from 'prop-types';
 // 引入 封装fetch工具类
-import request from '../utils/request'; 
+import request from '../utils/request';
+
+const FormItem = Form.Item;
+
+const formLayout = {
+  labelCol: {
+    span: 4
+  },
+  wrapperCol: {
+    span: 16
+  }
+};
 
 class UserEditor extends React.Component {
+  // 生命周期--组件加载完毕
+  componentDidMount(){
+    /**
+     * 在componentWillMount里使用form.setFieldsValue无法设置表单的值
+     * 所以在componentDidMount里进行赋值
+     */
+    const { editTarget, form } = this.props;
+    if(editTarget){
+      // 将editTarget的值设置到表单
+      form.setFieldsValue(editTarget);
+    }
+  }
+
   // 按钮提交事件
   handleSubmit(e){
     // 阻止表单submit事件自动跳转页面的动作
     e.preventDefault();
     // 定义常量
-    const { form: { name, age, gender }, formValid, editTarget} = this.props; // 组件传值
+    const { form, editTarget } = this.props; // 组件传值
+
     // 验证
-    if(!formValid){
-      alert('请填写正确的信息后重试');
-      return;
-    }
+    form.validateFields((err, values) => {
+      if(!err){
+        // 默认值
+        let editType = '添加';
+        let apiUrl = 'http://localhost:8000/user';
+        let method = 'post';
+        // 判断类型
+        if(editTarget){
+          editType = '编辑';
+          apiUrl += '/' + editTarget.id;
+          method = 'put';
+        }
 
-    // 默认值
-    let editType = '添加';
-    let apiUrl = 'http://localhost:8000/user';
-    let method = 'post';
-    // 判断类型
-    if(editTarget){
-      editType = '编辑';
-      apiUrl += '/' + editTarget.id;
-      method = 'put';
-    }
-
-    // 发送请求
-    request(method,apiUrl, {
-      name: name.value,
-      age: age.value,
-      gender: gender.value
-    })
-    // 成功的回调
-    .then((res) => {
-      // 当添加成功时,返回的json对象中应包含一个有效的id字段
-      // 所以可以使用res.id来判断添加是否成功
-      if(res.id){
-        alert(editType + '添加用户成功!');
-        this.context.router.push('/user/list'); // 跳转到用户列表页面
-        return;
+        // 发送请求
+        request(method,apiUrl,values)
+          // 成功的回调
+          .then((res) => {
+            // 当添加成功时,返回的json对象中应包含一个有效的id字段
+            // 所以可以使用res.id来判断添加是否成功
+            if(res.id){
+              message.success(editType + '添加用户成功!');
+              // 跳转到用户列表页面
+              this.context.router.push('/user/list');
+              return;
+            }else{
+              message.error(editType + '添加用户失败!');
+            }
+          })
+          // 失败的回调
+          .catch((err) => console.error(err));
       }else{
-        alert(editType + '添加用户失败!');
+        message.warn(err);
       }
-    })
-    // 失败的回调
-    .catch((err) => console.error(err));
-  }
-
-  // 生命周期--组件加载中
-  componentWillMount(){
-    const {editTarget, setFormValues} = this.props;
-    if(editTarget){
-      setFormValues(editTarget);
-    }
+    });
   }
   
   render() {
     // 定义常量
-    const {form: {name, age, gender}, onFormChange} = this.props;
+    const { form } = this.props;
+    const { getFieldDecorator } = form;
     return (
-      <form onSubmit={(e) => this.handleSubmit(e)}>
-        <FormItem label="用户名:" valid={name.valid} error={name.error}>
-          <input
-            type="text"
-            value={name.value}
-            onChange={(e) => onFormChange('name', e.target.value)}/>
-        </FormItem>
+      <div style={{width: '400'}}>
+        <Form onSubmit={(e) => this.handleSubmit(e)}>
+          <FormItem label="用户名:" {...formLayout}>
+            {getFieldDecorator('name',{
+              rules: [
+                {
+                  required: true,
+                  message: '请输入用户名'
+                },
+                {
+                  pattern: /^.{1,4}$/,
+                  message: '用户名最多4个字符'
+                }
+              ]
+            })(
+              <Input type="text" />
+            )}
+          </FormItem>
 
-        <FormItem label="年龄:" valid={age.valid} error={age.error}>
-          <input
-            type="number"
-            value={age.value || ''}
-            onChange={(e) => onFormChange('age', e.target.value)}/>
-        </FormItem>
+          <FormItem label="年龄:" {...formLayout}>
+            {getFieldDecorator('age',{
+              rules: [
+                {
+                  required: true,
+                  message: '请输入年龄',
+                  type: 'number'
+                },
+                {
+                  min: 1,
+                  max: 100,
+                  message: '请输入1~100的年龄',
+                  type: 'number'
+                }
+              ]
+            })(
+              <InputNumber />
+            )}
+          </FormItem>
 
-        <FormItem label="性别:" valid={gender.valid} error={gender.error}>
-          <select
-            value={gender.value}
-            onChange={(e) => onFormChange('gender', e.target.value)}>
-            <option value="">请选择</option>
-            <option value="male">男</option>
-            <option value="female">女</option>
-          </select>
-        </FormItem>
-        <br />
-        <input type="submit" value="提交" />
-      </form>
+          <FormItem label="性别:" {...formLayout}>
+            {getFieldDecorator('gender',{
+              rules: [
+                {
+                  required: true,
+                  message: '请选择性别'
+                }
+              ]
+            })(
+              <Select placeholder="请选择">
+                <Select.Option value="male">男</Select.Option>
+                <Select.Option value="female">女</Select.Option>
+              </Select>
+            )}
+          </FormItem>
+
+          <FormItem wrapperCol={{...formLayout.wrapperCol, offset: formLayout.labelCol.span}}>
+            <Button type="primary" htmlType="submit">提交</Button>
+          </FormItem>
+        </Form>
+      </div>
     );
   }
 }
@@ -105,48 +153,10 @@ UserEditor.contextTypes = {
   router: PropTypes.object.isRequired
 };
 
-// 实例化
-UserEditor = formProvider({ // field 对象
-  // 姓名
-  name: {
-    defaultValue: '',
-    rules: [
-      {
-        pattern: function (value) {
-          return value.length > 0;
-        },
-        error: '请输入用户名'
-      },
-      {
-        pattern: /^.{1,4}$/,
-        error: '用户名最多4个字符'
-      }
-    ]
-  },
-  // 年龄
-  age: {
-    defaultValue: 0,
-    rules: [
-      {
-        pattern: function(value){
-          return value >= 1 && value <= 100;
-        },
-        error: '请输入1~100的年龄'
-      }
-    ]
-  },
-  // 性别
-  gender: {
-    defaultValue: '',
-    rules: [
-      {
-        pattern: function(value) {
-          return !!value;
-        },
-        error: '请选择性别'
-      }
-    ]
-  }
-})(UserEditor);
+/**
+ * 使用Form.create({ ... })(UserEditor)处理之后的UserEditor组件会接收到一个props.form
+ * 使用props.form下的一系列方法，可以很方便地创造表单
+ */
+UserEditor = Form.create()(UserEditor);
 
 export default UserEditor;
